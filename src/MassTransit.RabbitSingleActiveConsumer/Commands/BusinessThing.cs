@@ -1,16 +1,17 @@
 ﻿using System;
 
-namespace MassTransit.RabbitSingleActiveConsumer
-{
-    public class BusinessThing
-    {
-        public Guid CommandId { get; }
-        public Guid ThingId { get; }
+namespace MassTransit.RabbitSingleActiveConsumer;
 
-        public BusinessThing(Guid commandId, Guid thingId)
-        {
-            CommandId = commandId;
-            ThingId = thingId;
-        }
+public class BusinessThing
+{
+    public BusinessThing(Guid commandId, Guid thingId, int batchId)
+    {
+        CommandId = commandId;
+        ThingId = thingId;
+        BatchId = batchId;
     }
+
+    public Guid CommandId { get; }
+    public Guid ThingId { get; }
+    public int BatchId { get; }
 }

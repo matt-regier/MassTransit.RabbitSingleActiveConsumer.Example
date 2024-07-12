@@ -3,36 +3,35 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MassTransit.RabbitSingleActiveConsumer
+namespace MassTransit.RabbitSingleActiveConsumer;
+
+public class Startup
 {
-    public class Startup
+    public IConfiguration Configuration { get; }
+    public IWebHostEnvironment CurrentEnvironment { get; }
+
+    public Startup(IWebHostEnvironment env, IConfiguration config)
     {
-        public IConfiguration Configuration { get; }
-        public IWebHostEnvironment CurrentEnvironment { get; }
+        Configuration = config;
+        CurrentEnvironment = env;
+    }
 
-        public Startup(IWebHostEnvironment env, IConfiguration config)
-        {
-            Configuration = config;
-            CurrentEnvironment = env;
-        }
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddControllers();
 
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddControllers();
-
-            services.AddHttpClient();
+        services.AddHttpClient();
             
-            services.AddMessageBus(Configuration, CurrentEnvironment);
-        }
+        services.AddMessageBus(Configuration, CurrentEnvironment);
+    }
 
-        public void Configure(IApplicationBuilder app)
+    public void Configure(IApplicationBuilder app)
+    {
+        app.UseRouting();
+
+        app.UseEndpoints(endpoints =>
         {
-            app.UseRouting();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-        }
+            endpoints.MapControllers();
+        });
     }
 }
