@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MassTransit.RabbitSingleActiveConsumer": {
+      "commandName": "Project",
+      "applicationUrl": "http://localhost:5022"
+    }
+  }
+}
