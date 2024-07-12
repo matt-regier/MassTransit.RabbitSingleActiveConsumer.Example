@@ -66,7 +66,7 @@ public static class MessagingServicesConfiguration
             {
                 autoWireAllConsumers = false;
                 cfg.ReceiveEndpoint(
-                    nameof(BusinessThing),
+                    nameof(BusinessThing), // probably need to generate this name using the endpointNameFormatter if we can so 1 it matches and 2 we eliminate the magic of "guessing" what it's supposed to be.
                     e =>
                     {
                         e.SingleActiveConsumer = true;

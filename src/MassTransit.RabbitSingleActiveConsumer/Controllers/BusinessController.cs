@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,14 +37,17 @@ public class BusinessController : Controller
     {
         var commandId = Guid.NewGuid();
 
+        var publishTasks = new List<Task>();
+        Console.WriteLine("Start creating tasks.");
         for (var batch = 0; batch < batches; batch++)
         {
             // persist a lot of data to a store using thingId
-
             var command = new BusinessThing(commandId, thingId, batch);
-
-            await _messageBus.Publish(command);
+            publishTasks.Add(_messageBus.Publish(command));
         }
+        Console.WriteLine("Stop creating tasks.");
+        await Task.WhenAll(publishTasks);
+        Console.WriteLine("Tasks complete.");
 
         // Various Attempts:
         //await _messageBus.Send(command, pipe: new MessageSendPipe<BusinessThing>(new AsyncPipeContextPipe<SendContext<BusinessThing>>()));
@@ -63,15 +67,18 @@ public class BusinessController : Controller
     {
         var commandId = Guid.NewGuid();
 
+        var publishTasks = new List<Task>();
+        Console.WriteLine("Start creating tasks.");
         for (var batch = 0; batch < batches; batch++)
         {
             // persist a lot of data to a store using doodadId
-
             var command = new BusinessDoodad(commandId, doodadId, batch);
-
-            await _messageBus.Publish(command);
+            publishTasks.Add(_messageBus.Publish(command));
         }
-        
+        Console.WriteLine("Stop creating tasks.");
+        await Task.WhenAll(publishTasks);
+        Console.WriteLine("Tasks complete.");
+       
         return Ok(new { CommandId = commandId, DoodadId = doodadId});
     }
 }

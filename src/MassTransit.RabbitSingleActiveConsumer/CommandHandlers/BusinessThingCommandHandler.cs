@@ -32,6 +32,8 @@ public class BusinessThingCommandHandler : IConsumer<BusinessThing>
 
             // thing.Do();
 
+            await Task.Delay(1000);
+
             if (DateTimeOffset.UtcNow.Ticks % 20 == 0)
             {
                 throw new InvalidOperationException();
