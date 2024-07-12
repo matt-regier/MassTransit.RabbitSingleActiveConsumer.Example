@@ -1,8 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using MassTransit.RabbitSingleActiveConsumer.Commands;
 
-namespace MassTransit.RabbitSingleActiveConsumer.CommandHandlers
+namespace MassTransit.RabbitSingleActiveConsumer
 {
     public class BusinessDoodadCommandHandler : IConsumer<BusinessDoodad>
     {

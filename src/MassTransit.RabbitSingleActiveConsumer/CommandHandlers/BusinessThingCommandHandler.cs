@@ -1,8 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using MassTransit.RabbitSingleActiveConsumer.Commands;
 
-namespace MassTransit.RabbitSingleActiveConsumer.CommandHandlers
+namespace MassTransit.RabbitSingleActiveConsumer
 {
     // TODO: actually ToDon't, pretty sure this isn't sufficient because we need this as the "receiver" end, not just at the per-consumer level...
     //public class BusinessThingCommandHandlerDefinition : ConsumerDefinition<BusinessThingCommandHandler>

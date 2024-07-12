@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MassTransit.RabbitSingleActiveConsumer.Commands
+namespace MassTransit.RabbitSingleActiveConsumer
 {
     public class BusinessThing
     {

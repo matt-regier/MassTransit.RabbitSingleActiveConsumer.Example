@@ -2,8 +2,7 @@ using System;
 using System.Net.Sockets;
 using MassTransit;
 using MassTransit.Configuration;
-using MassTransit.RabbitSingleActiveConsumer.CommandHandlers;
-using MassTransit.RabbitSingleActiveConsumer.Commands;
+using MassTransit.RabbitSingleActiveConsumer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
@@ -47,7 +46,8 @@ namespace Microsoft.Extensions.DependencyInjection
                         TimeSpan.FromSeconds(2));
                 });
 
-                var endpointNameFormatter = DefaultEndpointNameFormatter.Instance;
+                //var endpointNameFormatter = new DefaultEndpointNameFormatter(false);
+                //var endpointNameFormatter = new DefaultEndpointNameFormatter(null);
 
                 var autoWireAllConsumers = true;
                 // TODO: which of these works?
@@ -66,7 +66,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     var consumerEndpointDefinition = new ConsumerEndpointDefinition<BusinessThingCommandHandler>(endpointSettings);
                     cfg.ReceiveEndpoint(
                         consumerEndpointDefinition,
-                        endpointNameFormatter,
+                        //endpointNameFormatter,
                         configureEndpoint: e =>
                         {
                             e.Durable = true;
@@ -76,7 +76,7 @@ namespace Microsoft.Extensions.DependencyInjection
                             e.ConfigureConsumer<BusinessThingCommandHandler>(context);
                         });
                 }
-                else if (true)
+                else if (false)
                 {
                     autoWireAllConsumers = false;
                     cfg.ReceiveEndpoint(
@@ -98,14 +98,14 @@ namespace Microsoft.Extensions.DependencyInjection
 
                 if (autoWireAllConsumers)
                 {
-                    context.ConfigureEndpoints(cfg, endpointNameFormatter);
+                    context.ConfigureEndpoints(cfg, null/*endpointNameFormatter*/);
                 }
                 else
                 {
                     // Order Matters: Manually configured receive endpoints should be configured before calling ConfigureEndpoints.
                     context.ConfigureEndpoints(
                         cfg,
-                        endpointNameFormatter,
+                        null/*endpointNameFormatter*/,
                         _ => _.Exclude<BusinessThingCommandHandler>()
                     );
                 }

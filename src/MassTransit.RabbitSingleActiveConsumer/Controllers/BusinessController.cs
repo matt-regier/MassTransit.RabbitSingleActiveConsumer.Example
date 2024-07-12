@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using MassTransit.RabbitSingleActiveConsumer.Commands;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MassTransit.RabbitSingleActiveConsumer.Controllers
@@ -39,8 +38,7 @@ namespace MassTransit.RabbitSingleActiveConsumer.Controllers
 
             var command = new BusinessThing(commandId: Guid.NewGuid(), thingId);
 
-
-            await _messageBus.Send(command);
+            await _messageBus.Publish(command);
 
             // Various Attempts:
             //await _messageBus.Send(command, pipe: new MessageSendPipe<BusinessThing>(new AsyncPipeContextPipe<SendContext<BusinessThing>>()));
@@ -62,7 +60,7 @@ namespace MassTransit.RabbitSingleActiveConsumer.Controllers
 
             var command = new BusinessDoodad(commandId: Guid.NewGuid(), doodadId);
 
-            await _messageBus.Send(command);
+            await _messageBus.Publish(command);
 
             return Ok(new { DoodadId = doodadId});
         }
